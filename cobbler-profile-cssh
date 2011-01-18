@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+import os, sys, xmlrpclib
+
+# open a cssh session with all hosts assigned <profile> 
+# optionally filtered by the string [host-filter]
+
+def contains(hostname):
+    if wanted in hostname:
+        return True
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+
+if len(sys.argv) == 1:
+    print "%s <profile_name> [hostname-filter]" % sys.argv[0]
+    sys.exit(1)
+
+profile = sys.argv[1]
+wanted  = sys.argv[2] if len(sys.argv) == 3 else ""
+
+servers  = xmlrpclib.Server( cobbler_api_url ).find_system( { "profile": profile } )
+
+if servers:
+    if wanted:
+        servers = filter( contains, servers)
+
+    print "Opening " + " ".join( servers )
+
+    servers.insert(0, "cssh") # os.execvp first element is the program name
+    os.execvp ( "cssh", servers )

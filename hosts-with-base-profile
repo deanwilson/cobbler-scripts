@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+import xmlrpclib
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+
+# string that covers your base classes
+base_profile = "-base"
+
+server = xmlrpclib.Server( cobbler_api_url )
+
+for server in xmlrpclib.Server( cobbler_api_url ).get_systems():
+    if base_profile in server["profile"]:
+        print "%s uses base class [%s]" % (server["name"], server["profile"])

@@ -1,0 +1,6 @@
+Fold the cobbler-profile-cssh and cobbler-profile-cssh-menu scripts in to
+one.
+
+Add string filtering to cobbler-profile-cssh-menu.
+
+Learn enough Python to make these look a little better.

@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+import xmlrpclib
+import sys
+
+# print the fqdn of all hosts with a given profile
+
+if len(sys.argv) == 1:
+    print "%s <profile_name>" % sys.argv[0]
+    sys.exit(1)
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+profile = sys.argv[1]
+
+server = xmlrpclib.Server( cobbler_api_url )
+
+for server in server.find_system( { "profile": profile } ):
+    print server

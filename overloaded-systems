@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+import xmlrpclib
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+
+# hosts should be simple and unburdened. All the config should be in profiles.
+
+for server in xmlrpclib.Server( cobbler_api_url ).get_systems():
+    if server["mgmt_classes"]:
+        print "%s has %s classes" % ( server["name"], server["mgmt_classes"] )
+    
+    if server["ks_meta"]:
+        print "%s has %s kickstart meta" % ( server["name"], server["ks_meta"] )

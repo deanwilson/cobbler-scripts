@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+import dialog
+import xmlrpclib
+import os, sys
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+profiles = list( xmlrpclib.Server( cobbler_api_url ).find_profile() )
+
+options = [ ( str(x), profiles[x] ) for x in range(1, len( profiles) ) ]
+
+d = dialog.Dialog()
+d.setBackgroundTitle("CSSH Profile picker")
+
+( ret, profile ) = d.menu("Profile to cssh with.", choices = options )
+
+if ret == 0:
+    servers = xmlrpclib.Server( cobbler_api_url ).find_system( { "profile": profiles[int(profile)] } )
+
+    servers.insert(0, "cssh") # os.execvp first element is the program name
+    os.execvp( "cssh", servers )

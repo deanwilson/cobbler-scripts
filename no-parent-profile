@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+import xmlrpclib
+
+cobbler_api_url = 'http://cobbler/cobbler_api'
+
+for profile in xmlrpclib.Server( cobbler_api_url ).get_profiles():
+    if not profile["parent"]:
+        print "Profile %s has no parent profile" % (profile["name"])
